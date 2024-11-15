@@ -1,12 +1,22 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 export default function CrudScreen() {
   const [items, setItems] = useState([]);
   const [input, setInput] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
+
+  const toastMostrar = (message, type) => {
+    Toast.show({
+      type: type, 
+      position: 'bottom',
+      text1: message,
+      
+    });
+  };
 
   const getItems = async () => {
     try {
@@ -34,6 +44,7 @@ export default function CrudScreen() {
       nomePerfil: input
     }
     await axios.post('http://10.0.2.2:3333/perfil', request);
+    toastMostrar('Item adicionado com sucesso', 'success');
     await getItems();
   };
 
@@ -59,11 +70,13 @@ export default function CrudScreen() {
     setInput('');
     setIsEditing(false);
     setEditId(null);
+    toastMostrar('Item editado com sucesso', 'success');
   };
 
   const deleteItem = async (id) => {
     await axios.delete(`http://10.0.2.2:3333/perfil/${id}`);
     await getItems();
+    toastMostrar('Item deletado com sucesso', 'success');
   };
 
   const handleAddOrUpdate = () => {
@@ -131,8 +144,9 @@ export default function CrudScreen() {
             </TouchableOpacity>
           </View>
         )}
-        ItemSeparatorComponent={() => <View style={styles.separador} />}
+        ItemSeparatorComponent={() => <View style={styles.separador} />}  
       />
+      <Toast />
     </View>
   );
 }
@@ -141,7 +155,7 @@ const styles = StyleSheet.create({
   separador: {
     height: 1, 
     backgroundColor: '#ddd', 
-    marginLeft: 10, 
+    marginLeft: 10,  
   },
   ContainerCoiso: {
     justifyContent: 'center',
