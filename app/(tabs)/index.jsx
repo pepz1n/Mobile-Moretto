@@ -8,7 +8,6 @@ export default function CrudScreen() {
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  // Função que será chamada ao abrir a tela
   const getItems = async () => {
     try {
       const dados = await axios.get('http://10.0.2.2:3333/perfil')
@@ -75,6 +74,12 @@ export default function CrudScreen() {
     }
   };
 
+  const pararEdit = () => {
+    setInput('');
+    setIsEditing(false);
+    setEditId(null);
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>CRUD de Perfis</Text>
@@ -84,10 +89,36 @@ export default function CrudScreen() {
         value={input}
         onChangeText={setInput}
       />
-      <Button title={isEditing ? 'Atualizar Item' : 'Adicionar Item'} onPress={handleAddOrUpdate} />
-
+      {!isEditing && (
+        <Button
+          style={isEditing ? styles.tamanhoBotaoSalvar : null}
+          title={isEditing ? 'Atualizar Item' : 'Adicionar Item'}
+          onPress={handleAddOrUpdate}
+        />
+      )}
+      <View style={isEditing ? styles.ContainerCoiso: null}>
+        <View style={isEditing ? styles.buttonRow : null}>
+        <View style={styles.buttonSalvarContainer}>
+            <Button
+              style={styles.tamanhoBotaoSalvar}
+              title={'Atualizar Item'}
+              onPress={handleAddOrUpdate}
+            />
+          </View>
+          {isEditing && (
+            <View style={styles.buttonExcluirContainer}>
+              <Button
+                style={styles.botaoParar}
+                title='Parar'
+                onPress={pararEdit}
+              />
+            </View>
+          )}
+        </View>
+      </View>
       <FlatList
         data={items}
+        style={styles.margemTop}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
@@ -100,12 +131,41 @@ export default function CrudScreen() {
             </TouchableOpacity>
           </View>
         )}
+        ItemSeparatorComponent={() => <View style={styles.separador} />}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  separador: {
+    height: 1, 
+    backgroundColor: '#ddd', 
+    marginLeft: 10, 
+  },
+  ContainerCoiso: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%', 
+  },
+  buttonSalvarContainer: {
+    flex: 3, 
+    marginRight: 10,
+  },
+  buttonExcluirContainer: {
+    flex: 1,
+  },
+  tamanhoBotaoSalvar: {
+    width: '100%',
+  },
+  botaoParar: {
+    width: '100%',
+    backgroundColor: '#f44336',
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -138,11 +198,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#4CAF50',
     padding: 5,
     borderRadius: 5,
+    position: 'absolute',
+    top: 10,
+    right: 70,
   },
   deleteButton: {
     backgroundColor: '#f44336',
     padding: 5,
     borderRadius: 5,
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
   buttonText: {
     color: '#fff',
