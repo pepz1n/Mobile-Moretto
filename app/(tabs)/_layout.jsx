@@ -36,6 +36,15 @@ function TabLayoutWithStore() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="produtos"
+        options={{
+          title: 'Produtos',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'pizza' : 'pizza-outline'} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
