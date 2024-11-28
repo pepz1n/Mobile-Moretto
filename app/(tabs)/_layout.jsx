@@ -1,58 +1,66 @@
-import React, { useState } from 'react';
-import { Tabs } from 'expo-router';
-import { Provider, useSelector } from 'react-redux';
-import store from '../../constants/store';
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import React from 'react'
+import { Tabs } from 'expo-router'
+import { Provider, useSelector } from 'react-redux'
+import store from '../../constants/store'
+import { TabBarIcon } from '@/components/navigation/TabBarIcon'
+import { Colors } from '@/constants/Colors'
+import { useColorScheme } from '@/hooks/useColorScheme'
 
 function TabLayoutWithStore() {
-  const colorScheme = useColorScheme();
-  const user = useSelector((state) => state.user);
+    const colorScheme = useColorScheme()
+    const user = useSelector((state) => state.user)
 
-  return (
-    
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: `Home - ${user.name || 'Visitante'}`,
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="perfis"
-        options={{
-          title: 'Perfis',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="produtos"
-        options={{
-          title: 'Produtos',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'pizza' : 'pizza-outline'} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
-  );
+    return (
+        <Tabs
+            screenOptions={{
+                tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+                headerShown: false,
+            }}
+        >
+            <Tabs.Screen
+                name="index"
+                options={{
+                    title: `Home - ${user.name || 'Visitante'}`,
+                    tabBarIcon: ({ color, focused }) => (
+                        <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="perfis"
+                options={{
+                    title: 'Perfis',
+                    tabBarIcon: ({ color, focused }) => (
+                        <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="promocoes"
+                options={{
+                    title: 'Promoções',
+                    tabBarIcon: ({ color, focused }) => (
+                        <TabBarIcon name={focused ? 'pricetag' : 'pricetag-outline'} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="produtos"
+                options={{
+                    title: 'Produtos',
+                    tabBarIcon: ({ color, focused }) => (
+                        <TabBarIcon name={focused ? 'pizza' : 'pizza-outline'} color={color} />
+                    ),
+                }}
+            />
+        </Tabs>
+    )
 }
 
 export default function TabLayout() {
-  return (
-    <Provider store={store}>
-      <TabLayoutWithStore />
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <TabLayoutWithStore />
+        </Provider>
+    )
 }
