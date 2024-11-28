@@ -53,6 +53,15 @@ function TabLayoutWithStore() {
                     ),
                 }}
             />
+            <Tabs.Screen
+                name="favoritos"
+                options={{
+                    title: 'Favoritos',
+                    tabBarIcon: ({ color, focused }) => (
+                        <TabBarIcon name={focused ? 'star' : 'star-outline'} color={color} />
+                    ),
+                }}
+            />
         </Tabs>
     )
 }
