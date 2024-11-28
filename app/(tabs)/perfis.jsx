@@ -22,6 +22,7 @@ export default function CrudScreen() {
 
   const getItems = async () => {
     try {
+      const token = await AsyncStorage.getItem('authToken');
       const dados = await axios.get('http://10.0.2.2:3333/perfil', {
         headers: {
           Authorization: `Bearer ${token}`
