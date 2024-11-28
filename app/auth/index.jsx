@@ -26,6 +26,10 @@ const LoginScreen = () => {
     }
   };
 
+  const navigateToRegister = () => {
+    router.push('/auth/register'); 
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
@@ -43,6 +47,10 @@ const LoginScreen = () => {
         onChangeText={setPassword}
       />
       <Button title="Entrar" onPress={handleLogin} />
+      <View style={styles.registerContainer}>
+        <Text style={styles.registerText}>Não tem uma conta?</Text>
+        <Button title="Registrar" onPress={navigateToRegister} />
+      </View>
     </View>
   );
 };
@@ -64,6 +72,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 1,
     borderRadius: 5,
+  },
+  registerContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  registerText: {
+    fontSize: 16,
+    marginBottom: 5,
   },
 });
 

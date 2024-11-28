@@ -37,8 +37,8 @@ export default function CrudScreen() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await getItems();
       const token = await AsyncStorage.getItem('authToken');
+      await getItems();
       if (!token) {
         router.replace('/auth'); 
         setIsAuth(false);
