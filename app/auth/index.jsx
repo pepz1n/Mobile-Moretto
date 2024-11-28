@@ -3,14 +3,27 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 const LoginScreen = () => {
   const router = useRouter();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
+  const toastMostrar = (message, type) => {
+    Toast.show({
+      type: type,
+      position: 'bottom',
+      text1: message,
+    });
+  };
+
   const handleLogin = async () => {
     try {
+      if (!email || !password) {
+        toastMostrar('Preencha todos os campos!', 'error');
+        return;
+      }
       const response = await axios.post('http://10.0.2.2:3333/usuario/login', {
         email,
         senha: password,
@@ -22,7 +35,7 @@ const LoginScreen = () => {
         router.push('/(inicio)'); 
       }
     } catch (error) {
-      console.error('Erro ao fazer login:', error.message);
+      toastMostrar('Erro ao fazer login!', 'error');
     }
   };
 
@@ -51,6 +64,7 @@ const LoginScreen = () => {
         <Text style={styles.registerText}>Não tem uma conta?</Text>
         <Button title="Registrar" onPress={navigateToRegister} />
       </View>
+      <Toast />
     </View>
   );
 };
